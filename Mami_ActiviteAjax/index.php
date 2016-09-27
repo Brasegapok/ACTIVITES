@@ -1,46 +1,12 @@
 <?php
-session_start();
-
-    $i = 0;
-    $NbChiffres = 6;
-    /* création d'une variable contenant l'ensemble des chiffres créés aléatoirement */
-    $chiffres = array(0, 1, 2, 3, 4, 5);
-    while ($i < $NbChiffres) {
-        //création d'une variable stockant un chiffre aléatoire
-        $chiffre = mt_rand(0, 9);
-        //explication: la variable à la $i ème case contiendra le chiffre aléatoire
-        $chiffres[$i] = $chiffre;
-        //autrement dit, étant donné que le code fait 6 nombres on aura $chiffres= [$i][$i][$i][$i][$i][$i]
-        $i++;
-    }
-//création d'une variable nombre
-    $nombre = null;
-
-//on explore le tableau $chiffres pour afficher chaque entrée qui s'y trouve.
-    foreach ($chiffres as $caractere) {
-        //on concatène la variable nombre
-        $nombre .= $caractere;
-    }
-    $_SESSION["code"] = $nombre;
-    var_dump($nombre);
-
-
-if (isset($_POST['reload']) && !empty($_POST['reload'])) {
-    $action = $_POST['action'];
-    switch ($action) {
-        case 'reload' : Chargercode();
-            break;
-        default :
-            break;
-    }
-}
+require_once 'ajaxCall.php';
 ?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="css/style.css">
         <meta charset="UTF-8" lang="fr">
-        
         <title>Home</title>
     </head>
     <div id="Marges">
@@ -49,15 +15,20 @@ if (isset($_POST['reload']) && !empty($_POST['reload'])) {
                 <h1>Authentification</h1>
             </header>
             <script type="text/javascript">
-                $.ajax({url: "http://127.0.0.1/GIT/Mami_ActiviteAjax/index.php",
-                    data: {action: "reload"},
-                    type: "post",
-                    success: function (output) {
-                        alert(output);
-                    }
-                });
+                function ReloadingCaptcha() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "./ajaxCall.php", true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+                            document.getElementById("captcha").src = "";
+                            document.getElementById("captcha").src = "captcha.php";
+                        }
+                    };
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.send("action=reloadCaptcha");
+                }
             </script>
-            <form action="index.php" method="POST">
+            <form action="ajaxCall.php" method="POST">
                 <p>Saisir votre pseudo: </p>
                 <input type="text" name="PseudoUser">
                 <br>
@@ -69,9 +40,10 @@ if (isset($_POST['reload']) && !empty($_POST['reload'])) {
                 <br>
                 <p>Afin de prouver que vous n'êtes pas un robot, prière de saisir le code indiqué ci-dessous</p>
                 <br>
-                <img src="captcha.php" alt ="code introuvable">
-                <input type="button" name="reloadCaptcha" value="recharger le code">
-                <input type="text" name="Captcha" placeholder="Captcha">
+                <img src="captcha.php" id="captcha" alt ="code introuvable">
+                <input type="button" name="reloadCaptcha" value="recharger le code" onclick="ReloadingCaptcha()">
+                <input type="text" name="SaisieCodeCaptcha"  placeholder="Captcha" id="SaisieCodeCaptcha">
+                <input type="submit" name="btnSubmit" value="Valider">
             </form>
         </body>
     </div>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+$nombre = "";
 if (isset($_SESSION["code"]))
 {
     $nombre = $_SESSION["code"];
@@ -44,4 +45,5 @@ unset($chiffre);
 unset($chiffres);
 imagestring($img, 100, 18, 8, $nombre, $avantPlan);
 imagepng($img);
+imagedestroy($img);
 ?>
