@@ -35,9 +35,7 @@ and open the template in the editor.
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-
     <body>
-
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -58,17 +56,17 @@ and open the template in the editor.
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-
         <div class="container">
-
             <div class="starter-template">
                 <h1>Bootstrap starter template</h1>
-                <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+                <p class="lead">
+                    Cette page est, selon OpenClassroom la façon 
+                    pour les programmeurs de se familliariser avec bootstrap
+                    pour voir des formulaires faits grâce aux codes contenus dans bootstrap, cliquez <a href="Formulaire.php">ici</a>
+                    pour voir un exercice de openclassroom sur le système de grille établi par bootstrap cliquez <a href="grille.php">ici</a>
+                </p>
             </div>
-
         </div><!-- /.container -->
-
-
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
